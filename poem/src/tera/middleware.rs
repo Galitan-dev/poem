@@ -171,7 +171,7 @@ impl<E: Endpoint> TeraTemplatingEndpoint<E> {
     /// ```
     pub fn with_live_reloading(self) -> Self {
         #[cfg(debug_assertions)] {
-            println!("Live Reloading is enabled");
+            tracing::debug!("Live Reloading for Tera Templating is enabled");
         }    
             
         self
