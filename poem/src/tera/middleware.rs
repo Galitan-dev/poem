@@ -111,7 +111,7 @@ impl<E: Endpoint> Endpoint for TeraTemplatingEndpoint<E> {
             transformer(&mut tera, &mut req);
         }
 
-        req.extensions_mut().insert(tera);
+        req.set_data(tera);
 
         self.inner.call(req).await
     }
