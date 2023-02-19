@@ -33,6 +33,27 @@ impl TeraTemplatingMiddleware {
         Self { tera }
     }
 
+    /// Create a new instance of TeraTemplating, containing all the parsed
+    /// templates found in the directory. The errors are already handled. Use
+    /// TeraTemplating::custom(tera: Tera) to modify tera settings.
+    ///
+    /// ```no_compile
+    /// use poem::tera::TeraTemplating;
+    ///
+    /// let templating = TeraTemplating::from_glob("templates");
+    /// ```
+    pub fn from_directory(template_directory: &str) -> Self {
+        let tera = match Tera::new(&format!("{template_directory}/**/*")) {
+            Ok(t) => t,
+            Err(e) => {
+                println!("Parsing error(s): {e}");
+                ::std::process::exit(1);
+            }
+        };
+
+        Self { tera }
+    }
+
     /// Create a new instance of TeraTemplating, using the provided Tera
     /// instance
     ///
@@ -51,6 +72,12 @@ impl TeraTemplatingMiddleware {
     /// ```
     pub fn custom(tera: Tera) -> Self {
         Self { tera }
+    }
+}
+
+impl Default for TeraTemplatingMiddleware {
+    fn default() -> Self {
+        Self::from_directory("templates")
     }
 }
 
