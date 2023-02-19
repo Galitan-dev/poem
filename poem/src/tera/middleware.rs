@@ -170,13 +170,10 @@ impl<E: Endpoint> TeraTemplatingEndpoint<E> {
     ///     .with_live_reloading();
     /// ```
     pub fn with_live_reloading(self) -> Self {
-        #[cfg(not(debug_assertions))] {
-            self
-        }
-
         #[cfg(debug_assertions)] {
             println!("Live Reloading is enabled");
-            self
-        }
+        }    
+            
+        self
     }
 }
