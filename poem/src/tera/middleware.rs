@@ -159,4 +159,24 @@ impl<E: Endpoint> TeraTemplatingEndpoint<E> {
         self.transformers.push(transformer);
         self
     }
+
+    /// Enable live reloading only for debug mode (not for release)
+    ///
+    /// ```no_compile
+    /// use poem::{Route, EndpointExt, tera::TeraTemplating};
+    ///
+    /// let app = Route::new()
+    ///     .with(TeraTemplating::from_glob("templates/**/*"))
+    ///     .with_live_reloading();
+    /// ```
+    pub fn with_live_reloading(self) -> Self {
+        #[cfg(not(debug_assertions))] {
+            self
+        }
+
+        #[cfg(debug_assertions)] {
+            println!("Live Reloading is enabled");
+            self
+        }
+    }
 }

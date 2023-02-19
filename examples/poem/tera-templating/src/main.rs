@@ -15,7 +15,8 @@ fn hello(Path(name): Path<String>, tera: Tera) -> TeraTemplate {
 async fn main() -> Result<(), std::io::Error> {
     let app = Route::new()
         .at("/hello/:name", get(hello))
-        .with(TeraTemplating::from_glob("templates/**/*"));
+        .with(TeraTemplating::from_glob("templates/**/*"))
+        .with_live_reloading();
 
     Server::new(TcpListener::bind("127.0.0.1:3000"))
         .run(app)
