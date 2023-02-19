@@ -44,16 +44,7 @@ impl TeraTemplatingMiddleware {
     /// let templating = TeraTemplating::from_glob("templates");
     /// ```
     pub fn from_directory(template_directory: &str) -> Self {
-        let tera = match Tera::new(&format!("{template_directory}/**/*")) {
-            Ok(t) => t,
-            Err(e) => {
-                tracing::error!("Failed to parse Tera template: {err}");
-                tracing::debug!("Tera Parsing error: {err:?}");
-                ::std::process::exit(1);
-            }
-        };
-
-        Self { tera }
+        Self::from_glob(&format!("{template_directory}/**/*"));
     }
 
     /// Create a new instance of TeraTemplating, using the provided Tera
